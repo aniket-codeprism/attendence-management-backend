@@ -10,8 +10,8 @@ spring:
     password: root
     hikari:
       data-source-properties:
-        { socketFactory:com.google.cloud.sql.postgres.SocketFactory
-          cloudSqlInstance:playamv-8fef2:us-central1:dbpostgre }
+         socketFactory: com.google.cloud.sql.postgres.SocketFactory
+         cloudSqlInstance: playamv-8fef2:us-central1:dbpostgre
 
 
   jpa:
