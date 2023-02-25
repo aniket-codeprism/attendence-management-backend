@@ -1,0 +1,31 @@
+server:
+  servlet:
+    context-path: /attendance-backend
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql:///postgres
+    username: postgres
+    password: root
+    hikari:
+      data-source-properties:
+        { socketFactory:com.google.cloud.sql.postgres.SocketFactory
+          cloudSqlInstance:playamv-8fef2:us-central1:dbpostgre }
+
+
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        session:
+          events:
+            log:
+              LOG_QUERIES_SLOWER_THAN_MS: 25
+    show-sql: true
