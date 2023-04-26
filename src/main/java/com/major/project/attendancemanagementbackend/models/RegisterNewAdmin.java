@@ -3,9 +3,10 @@ package com.major.project.attendancemanagementbackend.models;
 import lombok.Data;
 
 @Data
-public class InstituteModel {
+public class RegisterNewAdmin {
     String name;
-    Long collegeId;
     String email;
     String mobile;
+    String adminId;
+
 }

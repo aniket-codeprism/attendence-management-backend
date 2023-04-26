@@ -13,19 +13,15 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     String name;
-    @Column
-    @ElementCollection
-    List<Integer> years;
-
     @ManyToOne@JoinColumn
     Institute institute;
 
     @OneToMany(mappedBy = "course")
     Set<Student> students;
 
-    @OneToOne@JoinColumn
+    @OneToOne @JoinColumn
     FingerprintDevice device;
 
 }

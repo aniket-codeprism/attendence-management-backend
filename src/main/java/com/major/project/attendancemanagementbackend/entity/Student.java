@@ -8,14 +8,14 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "users")
+@Table(name = "students")
 @Data
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     Long id;
-    @Column(name = "name")
+    @Column(name = "name",unique = true)
     String name;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "name",columnDefinition = "name")
@@ -25,6 +25,8 @@ public class Student {
     @Column
     String mobile;
 
+    @Column(unique = true)
+    String rollno;
     @ManyToOne
     @JoinColumn
     Course course;

@@ -1,0 +1,15 @@
+
+
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql:///postgres
+    username: postgres
+    password: root
+    hikari:
+      data-source-properties:
+         socketFactory: com.google.cloud.sql.postgres.SocketFactory
+         cloudSqlInstance: playamv-8fef2:us-central1:dbpostgre
+
+

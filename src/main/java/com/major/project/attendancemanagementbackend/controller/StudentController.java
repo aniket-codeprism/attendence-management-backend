@@ -1,8 +1,7 @@
 package com.major.project.attendancemanagementbackend.controller;
 
 import com.major.project.attendancemanagementbackend.entity.Student;
-import com.major.project.attendancemanagementbackend.models.UserModel;
-import com.major.project.attendancemanagementbackend.service.UserService;
+import com.major.project.attendancemanagementbackend.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,11 +13,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/student")
 public class StudentController {
     @Autowired
-    UserService userService;
-    @PostMapping(path = "/register")
-    public ResponseEntity registerUser(@RequestBody UserModel user){
-        Student users = userService.registerUser(user);
-        return ResponseEntity.ok(users.getInstitute().getStudent().size());
+    StudentService studentService;
+    @PostMapping("/registerStudent")
+    public ResponseEntity<Student> registerStudent(@RequestBody Student student){
+        try {
+            return ResponseEntity.ok(studentService.registerStudent(student));
+
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
-    public void login(){}
+    @PostMapping("/getStudentById")
+    public ResponseEntity<Student> getStudentById(@RequestBody Student student){
+        try {
+            return ResponseEntity.ok(studentService.getStudentById(student.getId()));
+
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

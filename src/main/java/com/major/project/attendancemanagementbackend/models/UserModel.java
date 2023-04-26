@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class UserModel {
     String name;
-    Set<Role> roles;
+    Role roles;
     Long institute;
     Long courseId;
 }

@@ -11,15 +11,15 @@ public class CollegeStaff {
     @Id@Column
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
-    @Column
+    @Column(unique = true)
     String name;
     @Column
-    Role roles;
+    Role role;
 
     @ManyToOne
     @JoinColumn
     Institute institute;
-    @Column
+    @Column(unique = true)
     String email;
     @Column
     String mobile;

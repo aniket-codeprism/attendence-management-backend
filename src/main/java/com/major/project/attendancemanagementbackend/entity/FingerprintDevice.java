@@ -1,20 +1,38 @@
 package com.major.project.attendancemanagementbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data@Entity@Table
+@Entity@Table
 public class FingerprintDevice {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    @Getter
+    private Long id;
 
-    @Column(unique = true)
-    String deviceId;
+    @Column
+    @Getter@Setter
+    boolean enabled=true;
+
 
     @PrimaryKeyJoinColumn
     @OneToOne
     Course course;
-    @ManyToOne@JoinColumn
+    @PrimaryKeyJoinColumn
+    @OneToOne
+    Admin admin;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "name",columnDefinition = "name")
+    @JsonBackReference
+    @Getter@Setter
     Institute institute;
+
+
+    public boolean getEnabled() {
+        return enabled;
+    }
 }
