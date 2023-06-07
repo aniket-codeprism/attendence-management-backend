@@ -8,4 +8,7 @@ public class InstituteModel {
     Long collegeId;
     String email;
     String mobile;
+    String address;
+    String city;
+    String postalCode;
 }

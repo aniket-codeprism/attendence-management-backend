@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class LoginModel {
     String firebaseId;
+    String email;
 }

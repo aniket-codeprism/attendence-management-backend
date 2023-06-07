@@ -1,9 +1,11 @@
 package com.major.project.attendancemanagementbackend.service;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.major.project.attendancemanagementbackend.constants.Role;
 import com.major.project.attendancemanagementbackend.entity.Admin;
+import com.major.project.attendancemanagementbackend.entity.FingerprintDevice;
 import com.major.project.attendancemanagementbackend.entity.Institute;
 import com.major.project.attendancemanagementbackend.exceptionss.Exceptions;
 import com.major.project.attendancemanagementbackend.models.InstituteModel;
@@ -20,6 +22,9 @@ public class AdminService {
     AdminRepository adminRepository;
 
     @Autowired
+    FirebaseService firebaseService;
+
+    @Autowired
     InstituteService instituteService;
     public Admin login(String firebaseId) throws Exception {
         Optional<Admin> byFirebaseId = adminRepository.findByFirebaseId(firebaseId);
@@ -32,11 +37,11 @@ public class AdminService {
     public Admin registerNewAdmin(Admin adminRequest) throws Exception {
         Optional<Admin> admin = adminRepository.findByFirebaseId(adminRequest.getFirebaseId());
         System.out.println(adminRequest.getFirebaseId());
+        System.out.println(adminRequest.getName());
         if (admin.isEmpty()) {
             throw Exceptions.adminNotFoundException;
         }
-        UserRecord user = FirebaseAuth.getInstance().createUser(new UserRecord.CreateRequest().setEmail(adminRequest.getEmail()).setPassword(adminRequest.getEmail()));
-////
+        UserRecord user = firebaseService.signUpUser(adminRequest.getEmail());
         Admin newAdmin=new Admin();
         newAdmin.setEmail(adminRequest.getEmail());
         newAdmin.setName(adminRequest.getName());
@@ -57,10 +62,22 @@ public class AdminService {
         return adminRepository.findAll();
     }
 
-    public Institute registerNewInstitute(InstituteModel institute) {
+    public Institute registerNewInstitute(InstituteModel institute) throws FirebaseAuthException {
         return instituteService.registerInstitute(institute);
     }
     public List<Institute> getAllInstitutes() {
         return instituteService.getAllInstitutes();
+    }
+
+    public Object deleteAll() throws FirebaseAuthException {
+        return firebaseService.clearFirebase();
+    }
+
+    public String resetPassword(String firebaseId) throws FirebaseAuthException {
+        return firebaseService.resetPassword(firebaseId);
+    }
+
+    public FingerprintDevice addDevice(Long deviceId, Long id) {
+        return instituteService.addDevice(deviceId, id);
     }
 }

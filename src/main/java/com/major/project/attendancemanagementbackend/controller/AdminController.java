@@ -1,7 +1,9 @@
 package com.major.project.attendancemanagementbackend.controller;
 
 import com.major.project.attendancemanagementbackend.entity.Admin;
+import com.major.project.attendancemanagementbackend.entity.FingerprintDevice;
 import com.major.project.attendancemanagementbackend.entity.Institute;
+import com.major.project.attendancemanagementbackend.models.AddDeviceModel;
 import com.major.project.attendancemanagementbackend.models.InstituteModel;
 import com.major.project.attendancemanagementbackend.models.LoginModel;
 import com.major.project.attendancemanagementbackend.service.AdminService;
@@ -21,35 +23,53 @@ public class AdminController {
     FingerprintDeviceService fingerprintDeviceService;
 
     @PostMapping(path = "/registerInstitute")
-    public ResponseEntity<Institute> registerInstitute(@RequestBody InstituteModel institute) {
+    public ResponseEntity registerInstitute(@RequestBody InstituteModel institute) {
         try {
             Institute institute1 =
                     adminService.registerNewInstitute(institute);
             return ResponseEntity.ok(institute1);
 
         } catch (Exception e) {
-            return ResponseEntity.notFound().build();
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+    @GetMapping(path = "/getAllInstitutes")
+    public ResponseEntity getAllInstitutes() {
+        try {
+
+
+            return ResponseEntity.ok(adminService.getAllInstitutes());
+
+        } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
         }
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<Admin> login(@RequestBody LoginModel loginModel) {
+    public ResponseEntity login(@RequestBody LoginModel loginModel) {
         try {
             Admin register = adminService.login(loginModel.getFirebaseId());
             return ResponseEntity.ok(register);
 
         } catch (Exception e) {
-            return ResponseEntity.notFound().build();
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
         }
 
     }
+    @PostMapping(path = "/resetPassword")
+    public ResponseEntity<String> resetPassword(@RequestBody LoginModel loginModel) {
+        try {
+            return ResponseEntity.ok(adminService.resetPassword(loginModel.getEmail()));
 
-    //    @PostMapping(path="/register")
-//    public ResponseEntity<Admin> register(@RequestBody Admin admin){
-//        Admin register = adminService.register(admin);
-//        return ResponseEntity.ok(register);
-//
-//    }
+        } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+        }
+
+    }
     @PostMapping(path = "/registerNewAdmin")
     public ResponseEntity registerNewAdmin(@RequestBody Admin admin) {
         try {
@@ -72,5 +92,31 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check if Email is already Present or Not ->" + e.getMessage());
         }
 
+    }
+    @GetMapping(path = "/deleteAll")
+    public ResponseEntity deleteAll() {
+        try {
+            return ResponseEntity.ok(adminService.deleteAll());
+
+        } catch (Exception e) {
+            System.out.println(e.getClass());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check if Email is already Present or Not ->" + e.getMessage());
+        }
+
+    }
+    @GetMapping(path = "/getAllDevices")
+    public ResponseEntity getAllDevices() {
+        try {
+            return ResponseEntity.ok(fingerprintDeviceService.getAllDevices());
+
+        } catch (Exception e) {
+            System.out.println(e.getClass());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check if Email is already Present or Not ->" + e.getMessage());
+        }
+
+    }
+    @PostMapping("/addDevice")
+    public FingerprintDevice addDevice(@RequestBody AddDeviceModel addDeviceModel){
+        return adminService.addDevice(addDeviceModel.getDeviceId(), addDeviceModel.getId());
     }
 }

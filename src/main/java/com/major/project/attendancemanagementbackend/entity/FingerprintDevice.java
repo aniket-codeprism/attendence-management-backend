@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity@Table
 public class FingerprintDevice {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     @Getter
     private Long id;
@@ -17,13 +17,18 @@ public class FingerprintDevice {
     @Column
     @Getter@Setter
     boolean enabled=true;
+    @Column
+    @Getter@Setter
+    String name="";
 
 
     @PrimaryKeyJoinColumn
     @OneToOne
+    @Getter@Setter
     Course course;
     @PrimaryKeyJoinColumn
     @OneToOne
+    @Getter@Setter
     Admin admin;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "name",columnDefinition = "name")

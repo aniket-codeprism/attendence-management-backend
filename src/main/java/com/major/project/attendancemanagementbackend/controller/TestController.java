@@ -5,6 +5,7 @@ import com.major.project.attendancemanagementbackend.repository.FingerRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,6 +17,11 @@ public class TestController {
 
     @GetMapping(path = "/test")
     public ResponseEntity registerInstitute() {
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping(path = "/testWebhook")
+    public ResponseEntity webhokTest(@RequestBody Object obj) {
+        System.out.println(obj);
         return ResponseEntity.ok().build();
     }
 

@@ -15,15 +15,15 @@ public class Admin {
     @Id@GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column
 
-    private Long id;
+    private Long id;//
 
     @Column
     String name;
 
     @Column(unique = true)
-    String firebaseId;
+    String firebaseId;//
     @Column
-    Role authority;
+    Role authority;//
     @Column(unique = true)
     String email;
     @Column

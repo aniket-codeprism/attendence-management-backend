@@ -1,32 +1,39 @@
 package com.major.project.attendancemanagementbackend.controller;
 
+import com.major.project.attendancemanagementbackend.DTo.StudentDTO;
+import com.major.project.attendancemanagementbackend.entity.FingerprintDevice;
 import com.major.project.attendancemanagementbackend.entity.Student;
+import com.major.project.attendancemanagementbackend.models.LoginModel;
+import com.major.project.attendancemanagementbackend.models.UserModel;
+import com.major.project.attendancemanagementbackend.service.FingerprintDeviceService;
 import com.major.project.attendancemanagementbackend.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/student")
 public class StudentController {
     @Autowired
     StudentService studentService;
-    @PostMapping("/registerStudent")
-    public ResponseEntity<Student> registerStudent(@RequestBody Student student){
+    @Autowired
+    FingerprintDeviceService fingerprintDeviceService;
+
+    @PostMapping("/loginStudent")
+    public ResponseEntity<StudentDTO> loginStudent(@RequestBody LoginModel loginModel){
         try {
-            return ResponseEntity.ok(studentService.registerStudent(student));
+
+            return ResponseEntity.ok(studentService.loginStudent(loginModel.getFirebaseId()));
 
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
-    @PostMapping("/getStudentById")
-    public ResponseEntity<Student> getStudentById(@RequestBody Student student){
+    @GetMapping("/getAll")
+    public ResponseEntity<Object> getAll(){
         try {
-            return ResponseEntity.ok(studentService.getStudentById(student.getId()));
+
+            return ResponseEntity.ok(studentService.getAll());
 
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

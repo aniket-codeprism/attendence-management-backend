@@ -1,32 +1,31 @@
 package com.major.project.attendancemanagementbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.major.project.attendancemanagementbackend.constants.Gender;
 import com.major.project.attendancemanagementbackend.constants.Role;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-
-@Entity
-@Table(name = "students")
 @Data
-public class Student {
-    @Id
+@Entity
+@Table(name="staff")
+public class Staff {
+    @Id@Column
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     Long id;
-    @Column
+    @Column(unique = true)
     String name;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    Institute institute;
     @Column(unique = true)
     String firebaseId;//
     @Column
-    Role authority;//
+    Role role;//
     @Column(unique = true)
     String email;
     @Column
@@ -41,18 +40,20 @@ public class Student {
     OffsetDateTime dob;
     @Column
     Gender gender;
+
     @ManyToOne
-    @JoinColumn
-    Course course;
+    @JoinColumn(nullable = false)
+    Institute institute;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "student_subject",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id")
+            name = "staff_course",
+            joinColumns = @JoinColumn(name = "staff_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
     )
-    private Set<Subject> subjects = new HashSet<>();
-
-
-    Long deviceId;
-
+    private Set<Course> courses = new HashSet<>();
+    @OneToMany(mappedBy = "staff",fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    private Set<Subject> subjects=new HashSet<>();
 }
